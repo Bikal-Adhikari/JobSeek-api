@@ -1,0 +1,18 @@
+@rootURL = http://localhost:8000
+@apiEP = {{rootURL}}/api/v1
+### server api
+GET {{rootURL}}/shshhkjhg
+
+### =====user api
+### Get user
+GET {{apiEP}}/users
+Authorization: 
+
+### Post user
+POST {{apiEP}}/users
+Content-Type: application/json
+
+{
+    "fName":"Bikal",
+    "emai":"email@email.com"
+}
