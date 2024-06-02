@@ -36,4 +36,41 @@ router.post("/", newUserValidation, async (req, res, next) => {
   }
 });
 
+//login
+
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email.includes("@") && !password) {
+      throw new Error("Invalid login details");
+    }
+    // find user by email
+    const user = await getUserByEmail(email);
+    if (user?._id) {
+      // verify the password
+      const isPasswordMatched = comparePassword(password, user.password);
+
+      if (isPasswordMatched) {
+        //user authentication
+        //create token, and return
+
+        return res.json({
+          status: "success",
+          message: "user authenticated",
+          tokens: {
+            accessJWT: signAccessJWT({ email }),
+            refreshJWT: signRefreshJWT(email),
+          },
+        });
+      }
+    }
+    res.json({
+      status: "error",
+      message: "Invalid login details",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
