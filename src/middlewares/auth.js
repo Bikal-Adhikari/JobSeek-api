@@ -1,5 +1,6 @@
-import { getUserByEmail } from "../models/user/UserModal";
-import { verifyAccessJWT } from "../utils/jwt";
+import { findToken } from "../models/session/SessionModal.js";
+import { getUserByEmail } from "../models/user/UserModal.js";
+import { verifyAccessJWT } from "../utils/jwt.js";
 
 export const auth = async (req, res, next) => {
   try {

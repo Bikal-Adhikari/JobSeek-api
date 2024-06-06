@@ -3,6 +3,7 @@ import { newUserValidation } from "../middlewares/joiValidation.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { createNewUser, getUserByEmail } from "../models/user/UserModal.js";
 import { signAccessJWT, signRefreshJWT } from "../utils/jwt.js";
+import { auth, jwtAuth } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -71,6 +72,31 @@ router.post("/login", async (req, res, next) => {
       status: "error",
       message: "Invalid login details",
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// return the user profile
+router.get("/", auth, (req, res, next) => {
+  try {
+    req.userInfo.refreshJWT = undefined;
+    req.userInfo.__v = undefined;
+    res.json({
+      status: "success",
+      message: "User profile",
+      user: req.userInfo,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+// return new accessJWT
+router.get("/renew-accessjwt", jwtAuth, async (req, res, next) => {
+  try {
+    const { email } = req.userInfo;
+    const accessJWT = await signAccessJWT({ email });
+    res.json({ accessJWT });
   } catch (error) {
     next(error);
   }
