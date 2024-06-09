@@ -112,9 +112,12 @@ router.get("/renew-accessjwt", jwtAuth, async (req, res, next) => {
 // update user profile
 router.put("/", auth, updateUserValidation, async (req, res, next) => {
   try {
-    const { _id, ...rest } = req.body;
-    const update = await updateUser(_id, rest);
-    update?._id
+    console.log(req.body);
+    const { email, ...rest } = req.body;
+    console.log(email, rest);
+    const update = await updateUser(email, rest);
+    console.log(update);
+    update?.email
       ? res.json({
           status: "success",
           message: "Your profile has been updated successfully",
