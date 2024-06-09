@@ -4,7 +4,11 @@ import {
   updateUserValidation,
 } from "../middlewares/joiValidation.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
-import { createNewUser, getUserByEmail } from "../models/user/UserModal.js";
+import {
+  createNewUser,
+  getUserByEmail,
+  updateUser,
+} from "../models/user/UserModal.js";
 import { signAccessJWT, signRefreshJWT } from "../utils/jwt.js";
 import { auth, jwtAuth } from "../middlewares/auth.js";
 
@@ -108,7 +112,17 @@ router.get("/renew-accessjwt", jwtAuth, async (req, res, next) => {
 // update user profile
 router.put("/", auth, updateUserValidation, async (req, res, next) => {
   try {
-    
+    const { _id, ...rest } = req.body;
+    const update = await updateUser(_id, rest);
+    update?._id
+      ? res.json({
+          status: "success",
+          message: "Your profile has been updated successfully",
+        })
+      : res.json({
+          status: "error",
+          message: "Failed to update profile",
+        });
   } catch (error) {
     next(error);
   }
