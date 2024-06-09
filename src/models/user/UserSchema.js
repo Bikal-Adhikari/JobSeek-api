@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    location: {
+      type: String,
+      default: "Sydney",
+    },
     refreshJWT: {
       type: String,
       default: "",

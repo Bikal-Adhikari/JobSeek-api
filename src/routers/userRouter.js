@@ -1,5 +1,8 @@
 import express from "express";
-import { newUserValidation } from "../middlewares/joiValidation.js";
+import {
+  newUserValidation,
+  updateUserValidation,
+} from "../middlewares/joiValidation.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { createNewUser, getUserByEmail } from "../models/user/UserModal.js";
 import { signAccessJWT, signRefreshJWT } from "../utils/jwt.js";
@@ -102,4 +105,12 @@ router.get("/renew-accessjwt", jwtAuth, async (req, res, next) => {
   }
 });
 
+// update user profile
+router.put("/", auth, updateUserValidation, async (req, res, next) => {
+  try {
+    
+  } catch (error) {
+    next(error);
+  }
+});
 export default router;

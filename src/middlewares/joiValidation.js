@@ -32,3 +32,12 @@ export const newUserValidation = (req, res, next) => {
   });
   return joiValidator({ req, res, next, schema });
 };
+export const updateUserValidation = (req, res, next) => {
+  const schema = Joi.object({
+    fName: STR_REQUIRED,
+    lName: STR_REQUIRED,
+    email: EMAIL,
+    location: STR_REQUIRED,
+  });
+  return joiValidator({ req, res, next, schema });
+};
