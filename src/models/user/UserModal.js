@@ -8,9 +8,9 @@ export const getUserByEmail = (email) => {
   return UserSchema.findOne({ email });
 };
 
-export const updateUser = async (email, { fName, lName, location }) => {
+export const updateUser = async (email, rest) => {
   const updateData = {}; // Initialize an empty object to hold the update data
-
+  const { fName, lName, location, ...obj } = rest;
   // Add fields to the updateData object only if they are present in the request
   if (fName) updateData.fName = fName;
   if (lName) updateData.lName = lName;
